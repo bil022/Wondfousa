@@ -3,6 +3,7 @@ import java.util.*;
 
 public class Magic4 {
 	private final static boolean OVER_WRITE = false;
+	private final static int TOO_BIG = 100000;
 	
 	// new Finder().scan(new File("."));
 	class Finder {
@@ -167,10 +168,15 @@ public class Magic4 {
 			}
 			float avg=sum25_75pctAligned()*2/aligned.size();
 			//System.err.println(file+" avg "+avg+"\n");
+			int nLarge=0;
 			for (int i=0; i<aligned.size(); i++) {
 				//aligned.set(i, aligned.get(i)/avg);
 				aligned.set(i, aligned.get(i)-avg);
+				if (aligned.get(i)>TOO_BIG)
+					nLarge++;
 			}
+			if (nLarge>0)
+				System.err.println(nLarge+" records >= "+TOO_BIG+ " in "+file); // check aligned here
 		}
 		int size() { return data.size(); }
 		int asize() { return aligned.size(); }
